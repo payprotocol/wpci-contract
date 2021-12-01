@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "./strings.sol";
+import "./pci.sol";
 
 contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessControlUpgradeable, UUPSUpgradeable {
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -16,7 +16,7 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
 
     mapping(bytes32 => bool) private _extIDs;
 
-    using strings for *;
+    using pci for *;
 
     event Wrapped(address indexed to, uint256 amount, bytes32 indexed extID);
 
@@ -80,14 +80,14 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
 
         return true;
     }
-
+    
     /**
      * @dev Unwrap
      *
      * Emits {Unwrapped} and {IERC20-Transfer} events.
      */
     function unwrap(string memory extTo, uint256 amount) public returns (bool) {
-        require(extTo.toString().startsWith("PCI".toString()), "Wrapper: invalid extTo");
+        require(extTo.isValidate(), "Wrapper: invalid extTo");
         require(amount > 0, "Wrapper: zero amount");
 
         _burn(_msgSender(), amount);
