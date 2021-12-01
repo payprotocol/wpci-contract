@@ -30,15 +30,4 @@ library strings {
         }
         return equal;
     }
-
-
-
-
-
-
-
-
-
-
-
 }
