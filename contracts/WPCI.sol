@@ -7,7 +7,6 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "./pci.sol";
 
 contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessControlUpgradeable, UUPSUpgradeable {
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -15,8 +14,6 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     bytes32 public constant WRAPPER_ROLE = keccak256("WRAPPER_ROLE");
 
     mapping(bytes32 => bool) private _extIDs;
-
-    using pci for *;
 
     event Wrapped(address indexed to, uint256 amount, bytes32 indexed extID);
 
@@ -87,7 +84,7 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
      * Emits {Unwrapped} and {IERC20-Transfer} events.
      */
     function unwrap(string memory extTo, uint256 amount) public returns (bool) {
-        require(extTo.isValidate(), "Wrapper: invalid extTo");
+        require(_isPCIAddress(extTo), "Wrapper: invalid PCI address");
         require(amount > 0, "Wrapper: zero amount");
 
         _burn(_msgSender(), amount);
@@ -95,6 +92,15 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
         emit Unwrapped(_msgSender(), amount, extTo);
 
         return true;
+    }
+
+    // PCI address must be 53 bytes and starts with 'PCI', not case-sensitive.
+    function _isPCIAddress(string memory addr) internal pure returns (bool) {
+        bytes memory addrBytes = bytes(addr);
+        return addrBytes.length == 53 &&
+            ((addrBytes[0] == 0x50) || (addrBytes[0] == 0x70)) &&  // 'P' or 'p'
+            ((addrBytes[1] == 0x43) || (addrBytes[1] == 0x63)) &&   // 'C' or 'c'
+            ((addrBytes[2] == 0x49) || (addrBytes[2] == 0x69));    // 'I' or 'i'
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal whenNotPaused override {
