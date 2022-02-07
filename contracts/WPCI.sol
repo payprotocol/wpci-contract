@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.11;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
@@ -42,8 +42,12 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
         _setupRole(WRAPPER_ROLE, wrapper);
     }
 
-    function decimals() public view virtual override returns (uint8) {
+    function decimals() public pure override returns (uint8) {
         return 8;
+    }
+
+    function cap() public pure returns (uint256) {
+        return 394100000000000000;  // 3941000000 * 10 ** decimals()
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
@@ -105,6 +109,11 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
 
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal whenNotPaused override {
         super._beforeTokenTransfer(from, to, amount);
+    }
+
+    function _mint(address account, uint256 amount) internal override {
+        require(ERC20Upgradeable.totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
+        super._mint(account, amount);
     }
 
     function _authorizeUpgrade(address newImplementation) internal onlyRole(UPGRADER_ROLE) override {}
