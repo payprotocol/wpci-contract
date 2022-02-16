@@ -1,6 +1,6 @@
-# Wrapped MLK token contract
+# Wrapped PCI (WPCI) token contract
 
-ERC20 based token for wrapping MLK.
+ERC20 based token for wrapping PCI.
 
 ## Upgradeable contract
 
@@ -40,6 +40,24 @@ truffle(develop)> wt.wrapped('0x77742e756e77726170282730783530343334393330333133
 truffle(develop)> (await wt.balanceOf(accounts[0])).toString()
 truffle(develop)> wt.unwrap('PCI01EF50758D506AD9570B1C567123B0390D9F5AEE651770018A', '1000')
 ```
+
+## Migration
+```sh
+% truffle migrate --network kovan
+// specific files
+% truffle migrate -f 2 --to 2 --network kovan
+```
+
+## Source Code Flatten (for Verification)
+
+1. Go [Remix Ethereum IDE](https://remix.ethereum.org/)
+2. Create a contract source file in the contracts folder
+3. Add the module version to import statements
+```solidity
+import "@openzeppelin/contracts-upgradeable@4.5.1/...
+```
+4. Choose the compiler version and compile
+5. Add the 'FLATTENER' plugin and use it
 
 ## GO ABI binding
 
