@@ -1,6 +1,6 @@
 const { upgradeProxy } = require('@openzeppelin/truffle-upgrades');
 
-const WMLK = artifacts.require('WMLK');
+const WPCI = artifacts.require('WPCI');
 
 module.exports = async function (deployer, network) {
   var proxyAddress = '';
@@ -14,6 +14,6 @@ module.exports = async function (deployer, network) {
     default :
       return console.error('Error: There is no proxy address.');
   }
-  const instance = await upgradeProxy(proxyAddress, WMLK);
+  const instance = await upgradeProxy(proxyAddress, WPCI);
   console.log('Upgraded', instance.address);
 };
