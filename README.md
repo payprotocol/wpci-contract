@@ -26,9 +26,9 @@ Run local dev node and console
 % truffle develop
 ```
 
-Migrate (complie & deploy)
+Migrate (compile & deploy)
 ```
-truffle(develop)> migrate
+truffle(develop)> migrate --to 1
 ```
 
 Example
