@@ -4,7 +4,6 @@ const WPCI = artifacts.require('WPCI');
 
 module.exports = async function (deployer) {
   let instance;
-  let network = 'goerli';
   if (network !== 'live') {
     instance = await deployProxy(WPCI, { kind: 'uups' });
   } else {

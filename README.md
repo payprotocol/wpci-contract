@@ -43,9 +43,9 @@ truffle(develop)> wt.unwrap('PCI01EF50758D506AD9570B1C567123B0390D9F5AEE65177001
 
 ## Migration
 ```sh
-% truffle migrate --network kovan
+% truffle migrate --network goerli
 // specific files
-% truffle migrate -f 2 --to 2 --network kovan
+% truffle migrate -f 2 --to 2 --network goerli
 ```
 
 ## Source Code Flatten (for Verification)
