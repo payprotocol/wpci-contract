@@ -5,7 +5,7 @@ const WPCI = artifacts.require('WPCI');
 module.exports = async function (deployer, network) {
   var proxyAddress = '';
   switch (network) {
-    case 'kovan':
+    case 'goerli':
       proxyAddress = '0xa4edf84181141400E8766DCD1113a21CFf0AeD78';
       break;
     case 'live':
