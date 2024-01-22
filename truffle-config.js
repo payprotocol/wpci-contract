@@ -73,7 +73,7 @@ module.exports = {
         // gas: 5500000,        // Ropsten has a lower block limit than mainnet
         // confirmations: 2,    // # of confs to wait between deployments. (default: 0)
         // timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
-        // skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+        // skipDryRun: true     // Skip dry run before migrations? (defaultㄴ: false for public nets )
         // },
         // Useful for private networks
         // private: {
@@ -90,9 +90,17 @@ module.exports = {
             networkCheckTimeout: 10000,
             provider: () => new HDWalletProvider(secrets.goerli.mnemonic, `https://goerli.infura.io/v3/${secrets.goerli.projectId}`),
             network_id: 5,
-            gas: 6721975,
+            gas: 4465030,
             gasPrice: 10000000000,
-            skipDryRun: true,
+            skipDryRun: true
+        },
+        sepolia: {
+            networkCheckTimeout: 10000,
+            provider: () => new HDWalletProvider(secrets.sepolia.mnemonic, `https://sepolia.infura.io/v3/${secrets.sepolia.projectId}`),
+            network_id: 11155111,
+            gas: 4465030,
+            gasPrice: 10000000000,
+            skipDryRun: true
         },
         live: {
             // provider: () => new HDWalletProvider(secrets.live.mnemonic, `https://cloudflare-eth.com`),
@@ -111,7 +119,7 @@ module.exports = {
     // Configure your compilers
     compilers: {
         solc: {
-            version: "0.8.11",    // Fetch exact version from solc-bin (default: truffle's version)
+            version: "0.8.11"    // Fetch exact version from solc-bin (default: truffle's version)
             // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
             // settings: {          // See the solidity docs for advice about optimization and evmVersion
             //  optimizer: {
@@ -121,7 +129,7 @@ module.exports = {
             //  evmVersion: "byzantium"
             // }
         }
-    },
+    }
 
     // Truffle DB is currently disabled by default; to enable it, change enabled:
     // false to enabled: true. The default storage location can also be
