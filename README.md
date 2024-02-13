@@ -7,6 +7,15 @@ ERC20 based token for wrapping PCI.
 - UUPS proxy pattern ([EIP1822](https://eips.ethereum.org/EIPS/eip-1822))
 - [OpenZeppelin Truffle Upgrades API](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-truffle-upgrades)
 
+
+## Environment
+- CentOS Linux release 7.9.2009 (Core)
+- Truffle v5.3.14 (core: 5.3.14)
+- Solidity v0.5.16 (solc-js)
+- Node v16.20.2
+- Web3.js v1.4.0
+
+
 ## Installation
 
 ```sh
