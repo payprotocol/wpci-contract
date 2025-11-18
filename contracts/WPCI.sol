@@ -47,7 +47,7 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     }
 
     function cap() public pure returns (uint256) {
-        return 394100000000000000;  // 3941000000 * 10 ** decimals()
+        return 190000000000000000;  // 1900000000 * 10 ** decimals()
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {
