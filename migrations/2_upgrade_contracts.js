@@ -1,23 +1,20 @@
-const { upgradeProxy } = require('@openzeppelin/truffle-upgrades');
-
+const { forceImport, upgradeProxy } = require('@openzeppelin/truffle-upgrades');
 const WPCI = artifacts.require('WPCI');
 
+module.exports = async function (deployer, network, accounts) {
+  // -----------이전 버전의 sol 컴파일 한 후 실행----------------------
+  // const proxyAddress = '0xa3924788e7c308a33d0a2DcCcCAf7BDfadd9d5Ed';
+  // console.log("[STEP] forceImport 시작:", proxyAddress);
+  // await forceImport(proxyAddress, WPCI, { kind: 'uups' });
+  // console.log("[STEP] forceImport 완료 / proxy 등록:", proxyAddress);
 
-module.exports = async function (deployer, network) {
-  var proxyAddress = '';
-  switch (network) {
-    case 'sepolia':
-      proxyAddress = '0xa1f5612B00A4Ce54d512C4B28801B3fC5A78D4A6';
-      break;
-    case 'goerli':
-      proxyAddress = '0x045e20F418649C9e6d8d1fEAabDa562Bf37F7c80';
-      break;
-    case 'live':
-      proxyAddress = '0x3C2A309d9005433c1BC2C92EF1bE06489e5bf258';
-      break;
-    default :
-      return console.error('Error: There is no proxy address.');
-  }
-  const instance = await upgradeProxy(proxyAddress, WPCI);
-  console.log('Upgraded', instance.address);
+
+  // -----------새로운버전의 sol 컴파일 한 후 실행----------------------
+  const proxyAddress = '0xa3924788e7c308a33d0a2DcCcCAf7BDfadd9d5Ed';
+  console.log("[STEP] upgradeProxy 시작:", proxyAddress);
+  const instance = await upgradeProxy(proxyAddress, WPCI, { kind: 'uups' });
+  console.log("[STEP] upgradeProxy 완료, proxy:", instance.address);
 };
+
+
+// 종종 실패함.
