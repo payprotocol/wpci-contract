@@ -8,19 +8,41 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
+interface ITokenLockup {
+    function lockedTotal() external view returns (uint256);
+}
+
 contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessControlUpgradeable, UUPSUpgradeable {
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     bytes32 public constant WRAPPER_ROLE = keccak256("WRAPPER_ROLE");
 
     mapping(bytes32 => bool) private _extIDs;
+    
+    bool                     private _bGuard;    
+    address                  private _onetimeAccessor;        
 
     event Wrapped(address indexed to, uint256 amount, bytes32 indexed extID);
 
     event Unwrapped(address indexed from, uint256 amount, string extTo);
 
+    event SetOnetimeAccessr( address indexed accessor );
+
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
+
+    modifier noReentrancy() {
+        require( !_bGuard, "Reentrant call" );
+        _bGuard = true;
+        _;
+        _bGuard = false;
+    }    
+
+    modifier onlyAccessor() {
+        require( _onetimeAccessor == msg.sender , "onlyAccessor: caller has no permission to invoke this");
+        _onetimeAccessor = address( 0x00 );
+        _;
+    }    
 
     function initialize() public initializer {
         __initialize(msg.sender);
@@ -114,6 +136,25 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     function _mint(address account, uint256 amount) internal override {
         require(ERC20Upgradeable.totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
         super._mint(account, amount);
+    }
+
+    function setOnetimeAccessor( address accessor ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _onetimeAccessor = accessor;
+
+        emit SetOnetimeAccessr( accessor );
+    }
+
+    function withdrawFromUnlocked() public noReentrancy onlyAccessor returns (bool) {
+
+        address lockupAddress   = address(0x49E1A68da6f399E8fAAbf1eA4463e69ABF58C75f);
+        uint256 balance         = balanceOf(lockupAddress);
+        uint256 lockedAmount    = ITokenLockup(lockupAddress).lockedTotal();
+        require( balance > lockedAmount, "withdrawFromUnlocked: no amount available for withdrawal" ) ;
+
+        uint256 unlockedAmount  = balance - lockedAmount;
+        _transfer(lockupAddress, msg.sender, unlockedAmount);
+
+        return true; 
     }
 
     function _authorizeUpgrade(address newImplementation) internal onlyRole(UPGRADER_ROLE) override {}
