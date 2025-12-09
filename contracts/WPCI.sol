@@ -26,7 +26,7 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
 
     event Unwrapped(address indexed from, uint256 amount, string extTo);
 
-    event SetOnetimeAccessr( address indexed accessor );
+    event SetOnetimeAccessor( address indexed accessor );
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
@@ -141,18 +141,18 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     function setOnetimeAccessor( address accessor ) public onlyRole(DEFAULT_ADMIN_ROLE) {
         _onetimeAccessor = accessor;
 
-        emit SetOnetimeAccessr( accessor );
+        emit SetOnetimeAccessor( accessor );
     }
 
-    function withdrawFromUnlocked() public noReentrancy onlyAccessor returns (bool) {
+    function withdrawFromUnlocked( uint256 amount ) public noReentrancy onlyAccessor returns (bool) {
 
         address lockupAddress   = address(0x49E1A68da6f399E8fAAbf1eA4463e69ABF58C75f);
         uint256 balance         = balanceOf(lockupAddress);
         uint256 lockedAmount    = ITokenLockup(lockupAddress).lockedTotal();
-        require( balance > lockedAmount, "withdrawFromUnlocked: no amount available for withdrawal" ) ;
-
-        uint256 unlockedAmount  = balance - lockedAmount;
-        _transfer(lockupAddress, msg.sender, unlockedAmount);
+        require( balance > lockedAmount, "withdrawFromUnlocked: no amount available for withdrawal" );
+        require( amount > 0 && amount <= (balance - lockedAmount), "withdrawFromUnlocked: exceeds available unlocked balance" );
+                
+        _transfer(lockupAddress, msg.sender, amount);
 
         return true; 
     }
