@@ -5,7 +5,7 @@ ERC20 based token for wrapping PCI.
 ## Upgradeable contract
 
 - UUPS proxy pattern ([EIP1822](https://eips.ethereum.org/EIPS/eip-1822))
-- [OpenZeppelin Truffle Upgrades API](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-truffle-upgrades)
+- [OpenZeppelin Truffle Upgrades API](https://docs.openzeppelin.com/upgrades-plugins/api-truffle-upgrades)
 
 
 ## Environment
