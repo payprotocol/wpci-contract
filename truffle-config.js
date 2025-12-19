@@ -89,57 +89,14 @@ module.exports = {
             port: 9545,
             network_id: "*"
         },
-        arbitrum_sepolia: {
-            provider: () => new HDWalletProvider({
-                privateKeys: [secrets.sepolia.privateKey],
-                providerOrUrl: `https://arbitrum-sepolia.infura.io/v3/${secrets.sepolia.projectId}`,
-                pollingInterval: 15000,   // 15초마다 한 번 block 조회 (기본보다 훨씬 느리게)
-            }),
-            network_id: 421614,
-            gas: 4465030,
-            gasPrice: 10000000000,
-            confirmations: 1,            // 너무 오래 안 기다리게 낮게
-            timeoutBlocks: 200,
-            networkCheckTimeout: 100000, // 100초 정도로 넉넉히
-            skipDryRun: true             // 이미 켜둔 건 잘했음
-        },
-        ethereum_sepolia: {
+        bsc_testnet: {
             networkCheckTimeout: 10000,
             provider: () => new HDWalletProvider({
-                privateKeys: [secrets.sepolia.privateKey],
-                providerOrUrl: `https://ethereum-sepolia-public.nodies.app`,
+                privateKeys: [secrets.bsc_testnet.privateKey],
+                providerOrUrl: `https://bsc-testnet-rpc.publicnode.com`,
                 pollingInterval: 15000,   // 15초마다 한 번 block 조회 (기본보다 훨씬 느리게)
             }),
-            network_id: 11155111,
-            gas: 4465030,
-            gasPrice: 10000000000,
-            confirmations: 1,            // 너무 오래 안 기다리게 낮게
-            timeoutBlocks: 2000,
-            networkCheckTimeout: 300000, // 100초 정도로 넉넉히
-            skipDryRun: true             // 이미 켜둔 건 잘했음
-        },
-        arbitrum: {
-            provider: () => new HDWalletProvider({
-                privateKeys: [secrets.sepolia.privateKey],
-                providerOrUrl: `https://arbitrum-one-public.nodies.app`,
-                pollingInterval: 15000,   // 15초마다 한 번 block 조회 (기본보다 훨씬 느리게)
-            }),
-            network_id: 42161,
-            gas: 10000000,
-            gasPrice: 0,
-            confirmations: 1,            // 너무 오래 안 기다리게 낮게
-            timeoutBlocks: 200,
-            networkCheckTimeout: 100000, // 100초 정도로 넉넉히
-            skipDryRun: true             // 이미 켜둔 건 잘했음
-        },
-        ethereum: {
-            networkCheckTimeout: 10000,
-            provider: () => new HDWalletProvider({
-                privateKeys: [secrets.sepolia.privateKey],
-                providerOrUrl: `https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7`,
-                pollingInterval: 15000,   // 15초마다 한 번 block 조회 (기본보다 훨씬 느리게)
-            }),
-            network_id: 1,
+            network_id: 97,
             gas: 4465030,
             gasPrice: 10000000000,
             confirmations: 1,            // 너무 오래 안 기다리게 낮게
@@ -147,8 +104,6 @@ module.exports = {
             networkCheckTimeout: 300000, // 100초 정도로 넉넉히
             skipDryRun: true             // 이미 켜둔 건 잘했음
         }
-
-        
     },
 
     // Set default mocha options here, use special reporters etc.
