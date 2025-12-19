@@ -15,6 +15,16 @@ ERC20 based token for wrapping PCI.
 - Node v16.20.2
 - Web3.js v1.4.0
 
+## BSC Remix OZ import version
+```
+% import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.6/contracts/token/ERC20/ERC20Upgradeable.sol";
+% import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.6/contracts/access/AccessControlUpgradeable.sol";
+% import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.6/contracts/security/PausableUpgradeable.sol";
+% import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.6/contracts/proxy/utils/Initializable.sol";
+% import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.6/contracts/proxy/utils/UUPSUpgradeable.sol";
+```
+
+
 ## Copy .secrets.json
 ```
 % cp sample_secrets.json .secrets.json
