@@ -15,6 +15,11 @@ ERC20 based token for wrapping PCI.
 - Node v16.20.2
 - Web3.js v1.4.0
 
+## Copy .secrets.json
+```
+% cp sample_secrets.json .secrets.json
+```
+
 
 ## Installation
 
