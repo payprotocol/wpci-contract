@@ -20,7 +20,9 @@ contract WPCI is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     event Unwrapped(address indexed from, uint256 amount, string extTo);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
+    constructor() {
+        _disableInitializers();
+    }
 
     function initialize() public initializer {
         __initialize(msg.sender);

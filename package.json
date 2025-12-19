@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "4.5.1",
+    "@openzeppelin/contracts-upgradeable": "4.9.6",
     "@trufflesuite/bigint-buffer": "^1.1.10",
     "python": "^0.0.4",
     "python3": "^0.0.1"
